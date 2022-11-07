@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StudentGroupRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudField;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -45,7 +46,7 @@ class StudentGroupCrudController extends CrudController
         CRUD::column('department_id');
         CRUD::column('classroom_id');
         CRUD::column('shift_id');
-        CRUD::column('active');
+        CRUD::column('active')->type('boolean');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -65,12 +66,24 @@ class StudentGroupCrudController extends CrudController
         CRUD::setValidation(StudentGroupRequest::class);
 
         CRUD::field('name');
-        CRUD::field('year');
-        CRUD::field('semester');
+        CRUD::field('year')->type('number')->size(6);
+        CRUD::field('semester')->type('number')->size(6);
         CRUD::field('department_id');
-        CRUD::field('classroom_id');
+        CRUD::field('classroom_id')->type('relationship');
         CRUD::field('shift_id');
         CRUD::field('active');
+        CRUD::field('students');
+        // CRUD::field('students')->type('select2_multiple')->entity('students');
+        // CRUD::field('students')->type('repeatable')
+        //     ->fields([
+        //         [
+        //             'name' => 'student_id',
+        //             'type' => 'select2',
+        //             'model' => 'App\Models\Student',
+        //             'attribute' => 'name',
+        //             'wrapper' => ['class' => 'form-group col-md-6']
+        //         ]
+        //     ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

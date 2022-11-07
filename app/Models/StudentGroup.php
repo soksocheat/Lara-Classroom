@@ -55,7 +55,7 @@ class StudentGroup extends Model
 
     // Many2many
     public function students() {
-        return $this->belongsToMany(StudentGroup::class, 'student_group_details');
+        return $this->belongsToMany(Student::class, 'student_group_details');
     }
     /*
     |--------------------------------------------------------------------------

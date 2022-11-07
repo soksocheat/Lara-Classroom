@@ -27,6 +27,13 @@ class StudentGroupRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'year' => 'required|numeric|between:1,4',
+            'semester' => 'required|numeric|between:1,2',
+            'department_id' => 'required',
+            'classroom_id' => 'nullable',
+            'shift_id' => 'required',
+            'active' => 'boolean'
         ];
     }
 

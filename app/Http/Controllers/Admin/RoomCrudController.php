@@ -41,7 +41,7 @@ class RoomCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('room_number');
-        CRUD::column('occupied');
+        CRUD::column('occupied')->type('boolean');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -62,7 +62,7 @@ class RoomCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('room_number');
-        CRUD::field('occupied');
+        // CRUD::field('occupied')->type('boolean');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

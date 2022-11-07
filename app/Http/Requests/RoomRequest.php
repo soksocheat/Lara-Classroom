@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoomRequest extends FormRequest
@@ -27,6 +28,8 @@ class RoomRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'nullable',
+            'room_number' => ['required', 'numeric', Rule::unique('rooms', 'room_number')->ignore($this->id)],
         ];
     }
 

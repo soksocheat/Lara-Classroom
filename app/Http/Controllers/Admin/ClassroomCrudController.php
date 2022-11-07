@@ -66,14 +66,35 @@ class ClassroomCrudController extends CrudController
         CRUD::setValidation(ClassroomRequest::class);
 
         CRUD::field('name');
-        CRUD::field('room_id');
-        CRUD::field('course_program_id');
-        CRUD::field('start_date');
-        CRUD::field('end_date');
-        CRUD::field('year');
-        CRUD::field('semester');
-        CRUD::field('status');
+        CRUD::field('room_id')->type('select2')
+            ->entity('room')
+            ->attribute('room_number');
+        CRUD::field('course_program_id')->type('select')
+            ->entity('courseProgram')
+            ->model('App\Models\CourseProgram')
+            ->attribute('name');
+        CRUD::field('start_date')->size(6);
+        CRUD::field('end_date')->size(6);
+        CRUD::field('year')->type('number')->size(6);
+        CRUD::field('semester')->type('number')->size(6);
+        CRUD::field('status')->type('enum');
 
+        CRUD::field('lecturers')
+        ->type('repeatable')
+        ->fields([
+            [
+                'name' => 'lecturer_id',
+                'type' => 'select2',
+                'model' => 'App\Models\Lecturer',
+                'attribute' => 'name',
+                'wrapper'   => ['class' => 'form-group col-md-6']
+            ],
+            [
+                'name' => 'order',
+                'type' => 'number',
+                'wrapper'   => ['class' => 'form-group col-md-6']
+            ]
+        ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

@@ -27,6 +27,12 @@ class StudentRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'birthdate' => 'required|date|before:today',
+            'place_of_birth' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required'
         ];
     }
 

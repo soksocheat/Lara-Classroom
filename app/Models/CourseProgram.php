@@ -55,7 +55,11 @@ class CourseProgram extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-
+    public function getCoursesAttribute() {
+        return json_encode($this->courses->map(function($course) {
+            return ['course_id' => $course->id, 'order' => $course->pivot->order];
+        }));
+    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

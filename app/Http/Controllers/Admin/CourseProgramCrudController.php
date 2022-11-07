@@ -39,11 +39,8 @@ class CourseProgramCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
         CRUD::column('name');
         CRUD::column('remark');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -62,11 +59,24 @@ class CourseProgramCrudController extends CrudController
     {
         CRUD::setValidation(CourseProgramRequest::class);
 
-        CRUD::field('id');
         CRUD::field('name');
         CRUD::field('remark');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        CRUD::field('courses')
+            ->type('repeatable')
+            ->fields([
+                [
+                    'name' => 'course_id',
+                    'type' => 'select2',
+                    'model' => 'App\Models\Course',
+                    'attribute' => 'name',
+                    'wrapper' => ['class' => 'form-group col-md-6']
+                ],
+                [
+                    'name' => 'order',
+                    'type' => 'number',
+                    'wrapper' => ['class' => 'form-group col-md-6']
+                ]
+            ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

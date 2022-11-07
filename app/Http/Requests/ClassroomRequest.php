@@ -27,6 +27,14 @@ class ClassroomRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'room_id' => 'required',
+            'course_program_id' => 'required',
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required|date|after:start_date',
+            'year' => 'required|numeric|between:1,4',
+            'semester' => 'required|numeric|between:1,2',
+            'status' => 'required'
         ];
     }
 

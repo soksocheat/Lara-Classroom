@@ -40,11 +40,11 @@ class StudentCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
+        CRUD::column('email');
+        CRUD::column('phone');
         CRUD::column('birthdate');
         CRUD::column('place_of_birth');
         CRUD::column('address');
-        CRUD::column('email');
-        CRUD::column('phone');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

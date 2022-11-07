@@ -27,6 +27,10 @@ class CourseRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'description' => 'nullable',
+            'shortcut' => 'required',
+            'department_id' => 'required'
         ];
     }
 
