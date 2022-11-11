@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StudentGroupRequest extends FormRequest
 {
@@ -27,7 +28,8 @@ class StudentGroupRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'name' => 'required',
+            'name' => ['required', Rule::unique('student_groups', 'name')->ignore($this->id)],
+            'batch' => 'required|numeric',
             'year' => 'required|numeric|between:1,4',
             'semester' => 'required|numeric|between:1,2',
             'department_id' => 'required',

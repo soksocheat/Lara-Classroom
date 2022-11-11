@@ -21,6 +21,7 @@ class StudentGroup extends Model
     protected $guarded = ['id'];
     protected $fillable = [
         'name',
+        'batch',
         'year',
         'semester',
         'department_id',
@@ -36,7 +37,18 @@ class StudentGroup extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+      /**
+     * Clone the model into a new, non-existing instance.
+     *
+     * @param  array|null  $except
+     * @return static
+     */
+    public function replicate(array $except = null)
+    {
+        $clone = parent::replicate();
+        $clone->name .= ' (copy)';
+        return $clone;
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -68,7 +80,12 @@ class StudentGroup extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-
+    public function getStudentsTableAttribute() {
+        // call values() to reset the index (0-1-2...) after sorting 
+        return json_encode($this->students->sortBy('name')->values()->map(function($student, $key) {
+            return ['count' => $key + 1, 'name' => $student->name, 'birthdate' => $student->birthdate];
+        }));
+    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
