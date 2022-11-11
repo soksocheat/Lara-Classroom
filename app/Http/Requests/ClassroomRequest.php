@@ -4,9 +4,12 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClassroomRequest extends FormRequest
 {
+    protected $stopOnFirstFailure = true;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,6 +21,13 @@ class ClassroomRequest extends FormRequest
         return backpack_auth()->check();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'lecturers_list' => json_decode($this->input('lecturers_list'), true)
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,14 +37,19 @@ class ClassroomRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'name' => 'required',
+            'name' => ['required', Rule::unique('classrooms', 'name')->ignore($this->id)],
+            'department_id' => 'required',
             'room_id' => 'required',
             'course_program_id' => 'required',
             'start_date' => 'required|date|before:end_date',
             'end_date' => 'required|date|after:start_date',
+            'batch' => 'required|numeric',
             'year' => 'required|numeric|between:1,4',
             'semester' => 'required|numeric|between:1,2',
-            'status' => 'required'
+            'status' => 'required',
+
+            'lecturers_list.*.lecturer_id' => 'required|distinct',
+            'lecturers_list.*.order' => 'required|distinct|numeric|between:1,5'
         ];
     }
 
@@ -58,7 +73,8 @@ class ClassroomRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'lecturers_list.*.lecturer_id.distinct' => 'Please check that there are no duplicate lecturers.',
+            'lecturers_list.*.order.distinct' => 'Please check that there is no duplicate order.'
         ];
     }
 }
