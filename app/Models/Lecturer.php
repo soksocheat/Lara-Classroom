@@ -38,7 +38,10 @@ class Lecturer extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function getWorkHours($crud = false)
+    {
+        return '<a class="btn btn-sm btn-secondary" target="_blank" href="http://google.com?q='.urlencode($this->id).'" data-toggle="tooltip" title="Just a demo custom button."><i class="la la-stopwatch"></i> Work Hours</a>';
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

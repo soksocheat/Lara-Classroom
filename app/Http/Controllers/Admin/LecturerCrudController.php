@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LecturerRequest;
+use App\Models\Department;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -18,6 +19,7 @@ class LecturerCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkCloneOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -47,6 +49,21 @@ class LecturerCrudController extends CrudController
         // CRUD::column('birthdate');
         // CRUD::column('place_of_birth');
 
+        CRUD::filter('department_id')
+            ->type('select2')
+            ->values(function() {
+                return Department::all()->keyBy('id')->pluck('name', 'id')->toArray();
+            })
+            ->whenActive(function($value) {
+                $this->crud->addClause('where', 'department_id', $value);
+            })->apply();
+
+        CRUD::button('getWorkHours')
+            ->stack('line')
+            ->type('model_function')
+            ->content('getWorkHours')
+            ->makeFirst();
+            
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
