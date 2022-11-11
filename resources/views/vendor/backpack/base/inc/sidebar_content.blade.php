@@ -57,12 +57,22 @@
 </li>
 @endif
 @endif
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('room') }}'><i class='nav-icon la la-question'></i> Rooms</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('shift') }}'><i class='nav-icon la la-question'></i> Shifts</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('course') }}'><i class='nav-icon la la-question'></i> Courses</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('student') }}'><i class='nav-icon la la-question'></i> Students</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i class='nav-icon la la-question'></i> Lecturers</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('department') }}'><i class='nav-icon la la-question'></i> Departments</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('course-program') }}'><i class='nav-icon la la-question'></i> Course programs</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('student-group') }}'><i class='nav-icon la la-question'></i> Student groups</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('classroom') }}'><i class='nav-icon la la-question'></i> Classrooms</a></li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-adjust"></i>Basic</a>
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('room') }}'><i class='nav-icon las la-door-open'></i> Rooms</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('shift') }}'><i class='nav-icon las la-cloud-sun'></i> Shifts</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('course') }}'><i class='nav-icon las la-book'></i> Courses</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('student') }}'><i class='nav-icon las la-portrait'></i> Students</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i class='nav-icon las la-graduation-cap'></i> Lecturers</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('department') }}'><i class='nav-icon las la-university'></i> Departments</a></li>
+    </ul>
+</li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-chart-pie"></i>Advance</a>
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('course-program') }}'><i class='nav-icon las la-folder-open'></i> Course programs</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('student-group') }}'><i class='nav-icon las la-user-friends'></i> Student groups</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('classroom') }}'><i class='nav-icon las la-credit-card'></i> Classrooms</a></li>
+    </ul>
+</li>
