@@ -14,10 +14,11 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class CourseProgramCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkCloneOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -61,7 +62,7 @@ class CourseProgramCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('remark');
-        CRUD::field('courses')
+        CRUD::field('courses_list')
             ->type('repeatable')
             ->fields([
                 [
@@ -76,7 +77,10 @@ class CourseProgramCrudController extends CrudController
                     'type' => 'number',
                     'wrapper' => ['class' => 'form-group col-md-6']
                 ]
-            ]);
+            ])
+            ->init_rows(5)
+            ->min_rows(5)
+            ->max_rows(5);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -94,5 +98,39 @@ class CourseProgramCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function store()
+    {
+        $courses = collect(json_decode(request('courses_list'), true));
+
+        $response = $this->traitStore();
+        
+        $this->crud->entry->courses()->sync($courses);
+
+        return $response;
+    }
+
+    public function update()
+    {
+        $courses = collect(json_decode(request('courses_list'), true));
+
+        $response = $this->traitUpdate();
+        
+        $this->crud->entry->courses()->detach();
+        $this->crud->entry->courses()->attach($courses);
+
+        return $response;
+    }
+
+    protected function setupShowOperation() {
+        CRUD::column('name');
+        CRUD::column('remark');
+        CRUD::column('courses_table')->type('table')
+            ->label('Courses')
+            ->columns([
+                'order' => 'Order',
+                'name' => 'Name'
+            ]);
     }
 }

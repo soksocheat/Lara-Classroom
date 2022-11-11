@@ -31,7 +31,18 @@ class CourseProgram extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    /**
+     * Clone the model into a new, non-existing instance.
+     *
+     * @param  array|null  $except
+     * @return static
+     */
+    public function replicate(array $except = null)
+    {
+        $clone = parent::replicate();
+        $clone->name .= ' (copy)';
+        return $clone;
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -55,9 +66,15 @@ class CourseProgram extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-    public function getCoursesAttribute() {
-        return json_encode($this->courses->map(function($course) {
+    public function getCoursesListAttribute() {
+        return json_encode($this->courses->sortBy('pivot.order')->values()->map(function($course) {
             return ['course_id' => $course->id, 'order' => $course->pivot->order];
+        }));
+    }
+
+    public function getCoursesTableAttribute() {
+        return json_encode($this->courses->sortBy('pivot.order')->values()->map(function($course) {
+            return ['order' => $course->pivot->order, 'name' => $course->name];
         }));
     }
     /*
